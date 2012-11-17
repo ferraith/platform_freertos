@@ -16,7 +16,7 @@ PROJ_NAME = freertos
 BUILD_DIR = build/$(PLATFORM)/$(BUILD_TYPE)
 
 #============================== Toolchain ==============================================================================
-include make/toolchain.mk
+include ../../toolchain/make/toolchain.mk
 
 
 ########################################################################################################################
@@ -24,12 +24,12 @@ include make/toolchain.mk
 # Libraries
 #
 #============================== Standard Libraries =====================================================================
-include make/libs.mk
+include ../../toolchain/make/libs.mk
 
 #============================== Platform Libraries =====================================================================
 # CMSIS-CORE LPC17xx
-PLTF_INC_DIRS  = platform/cmsis_core_lpc17xx/src/core/include
-PLTF_INC_DIRS += platform/cmsis_core_lpc17xx/src/device/include
+PLTF_INC_DIRS  = ../cmsis_core_lpc17xx/src/core/include
+PLTF_INC_DIRS += ../cmsis_core_lpc17xx/src/device/include
 
 
 ########################################################################################################################
@@ -51,7 +51,7 @@ PROJ_OBJ_DIRS  =
 # GCC & Binutils Flags
 #
 #============================== Common Flags ===========================================================================
-include make/flags.mk
+include ../../toolchain/make/flags.mk
 
 #============================== Project Preprocessor Flags =============================================================
 CPPFLAGS += -DARM_MATH_CM3
@@ -67,7 +67,7 @@ else ifeq ($(BUILD_TYPE),release)
 endif
 
 #============================== Project C Compile Flags ================================================================
-CFLAGS +=
+CFLAGS += -Wextra
 
 ifeq ($(BUILD_TYPE),debug)
 else ifeq ($(BUILD_TYPE),release)
@@ -126,7 +126,7 @@ PROJ_INCS = $(addprefix -I, $(PROJ_INC_DIRS))
 # Targets
 #
 #============================== Common Rules ===========================================================================
-include make/rules.mk
+include ../../toolchain/make/rules.mk
 
 #============================== Project Build Targets ==================================================================
 all: pre_$(PROJ_NAME) $(PROJ_NAME).a
