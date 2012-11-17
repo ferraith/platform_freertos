@@ -1,0 +1,18 @@
+########################################################################################################################
+#
+# .gitattributes: Rule set defining attributes of files per path.
+#
+#============================== EOF Normalization ======================================================================
+# Default behaviour
+* text=auto
+
+# Text files that will be normalized and converted to native line endings
+*.s text
+*.c text
+*.h text
+*.ld text
+*.ls text
+
+# Files that are binary and wouldn't be modified
+*.png binary
+*.jpg binary
