@@ -1,9 +1,9 @@
-/*
- * hooks.c
- *
- *  Created on: 20.12.2012
- *      Author: andreas
- */
+// Copyright (C) ferraith. All rights reserved.
+
+///
+/// @brief  FreeRTOS queue demo
+/// @author ferraith
+///
 
 #include "FreeRTOS.h"
 #include "LPC17xx.h"
