@@ -69,8 +69,6 @@ endif
 
 #============================== Project C Compile Flags ================================================================
 CFLAGS += -Wextra
-<<<<<<< HEAD
-=======
 
 ifeq ($(BUILD_TYPE),debug)
 else ifeq ($(BUILD_TYPE),release)
@@ -78,7 +76,6 @@ endif
 
 #============================== Project C++ Compile Flags ==============================================================
 CXXFLAGS +=
->>>>>>> ad5b208ca176e664949bef952dbbb9b2ee4b79fb
 
 ifeq ($(BUILD_TYPE),debug)
 else ifeq ($(BUILD_TYPE),release)
