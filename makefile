@@ -37,10 +37,12 @@ PLTF_INC_DIRS += ../cmsis_core_lpc17xx/src/device/include
 # Project Files
 #
 #============================== Source Directories =====================================================================
-PROJ_SRC_DIRS  = src
+PROJ_SRC_DIRS  = src/core
+PROJ_SRC_DIRS += src/port
 
 #============================== Header Directories =====================================================================
-PROJ_INC_DIRS  = src/include
+PROJ_INC_DIRS  = src/core/include
+PROJ_INC_DIRS += src/port/include
 
 #============================== Object Directories =====================================================================
 PROJ_OBJ_DIRS  =
