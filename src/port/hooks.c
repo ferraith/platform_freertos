@@ -1,18 +1,15 @@
+// FreeRTOS Library
 // Copyright (C) ferraith. All rights reserved.
-
-///
-/// @brief  FreeRTOS queue demo
-/// @author ferraith
-///
 
 #include "FreeRTOS.h"
 #include "LPC17xx.h"
 #include "task.h"
 
 ///
-/// @brief This function configures a timer that is used as the time base when collecting run time statistical
-///        information - basically the percentage of CPU time that each task is utilizing.  It is called automatically
-///        when the scheduler is started (assuming configGENERATE_RUN_TIME_STATS is set to 1).
+/// @brief         This function configures a timer that is used as the time base when collecting run time statistical
+///                information - basically the percentage of CPU time that each task is utilizing. It is called
+///                automatically when the scheduler is started.
+/// @return        None
 ///
 void vConfigureTimerForRunTimeStats(void) {
   const unsigned long TCR_COUNT_RESET = 2, CTCR_CTM_TIMER = 0x00, TCR_COUNT_ENABLE = 0x01;
@@ -29,7 +26,7 @@ void vConfigureTimerForRunTimeStats(void) {
 
   // Prescale to a frequency that is good enough to get a decent resolution, but not too fast so as to overflow all
   // the time.
-  LPC_TIM0->PR =  ( configCPU_CLOCK_HZ / 10000UL ) - 1UL;
+  LPC_TIM0->PR =  (configCPU_CLOCK_HZ / 10000UL) - 1UL;
 
   // Start the counter.
   LPC_TIM0->TCR = TCR_COUNT_ENABLE;
@@ -37,7 +34,10 @@ void vConfigureTimerForRunTimeStats(void) {
 
 
 ///
-/// @brief This function will get called if a task overflows its stack.
+/// @brief         This function will get called if a task overflows its stack.
+/// @param[in]     pxTask      The handle of the task which overflows its stack
+/// @param[in]     pcTaskName  The name of the task which overflows its stack
+/// @return        None
 ///
 void vApplicationStackOverflowHook(xTaskHandle pxTask, signed char *pcTaskName)
 {
