@@ -1,9 +1,9 @@
 // FreeRTOS Library
 // Copyright (C) ferraith. All rights reserved.
 
-#include "FreeRTOS.h"
-#include "LPC17xx.h"
-#include "task.h"
+#include "freertos/FreeRTOS.h"
+#include "cmsis_core_lpc17xx/LPC17xx.h"
+#include "freertos/task.h"
 
 ///
 /// @brief         This function configures a timer that is used as the time base when collecting run time statistical
