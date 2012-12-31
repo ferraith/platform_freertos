@@ -66,10 +66,10 @@
     the SafeRTOS brand: http://www.SafeRTOS.com.
 */
 
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
+#ifndef PORT_FREERTOSCONFIG_H_
+#define PORT_FREERTOSCONFIG_H_
 
-#include "LPC17xx.h"
+#include "cmsis_core_lpc17xx/LPC17xx.h"
 
 // Application specific definitions. These definitions should be adjusted for your particular hardware and
 // application requirements.
@@ -80,7 +80,7 @@
 #define configCPU_CLOCK_HZ                    ((unsigned long) 120000000)
 #define configTICK_RATE_HZ                    ((portTickType) 100000)
 #define configMINIMAL_STACK_SIZE              ((unsigned short) 27)
-#define configTOTAL_HEAP_SIZE                 ((size_t) (3 * 1024 ))
+#define configTOTAL_HEAP_SIZE                 ((size_t) (3 * 1024))
 #define configHEAP_MEMORY_SECTION             ".rtos_heap"
 #define configMAX_TASK_NAME_LEN               10
 #define configUSE_TRACE_FACILITY              0
@@ -112,7 +112,7 @@
 #ifdef __NVIC_PRIO_BITS
     #define configPRIO_BITS                   __NVIC_PRIO_BITS
 #else
-    #define configPRIO_BITS                   5 // 32 priority levels
+    #define configPRIO_BITS                   5  // 32 priority levels
 #endif
 
 // The lowest priority.
@@ -127,4 +127,4 @@ extern void vConfigureTimerForRunTimeStats(void);
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() vConfigureTimerForRunTimeStats()
 #define portGET_RUN_TIME_COUNTER_VALUE() LPC_TIM0->TC
 
-#endif  // FREERTOS_CONFIG_H
+#endif  // PORT_FREERTOSCONFIG_H_

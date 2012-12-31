@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-#include "FreeRTOS.h"
+#include "freertos/FreeRTOS.h"
 
 
 ///
@@ -12,7 +12,7 @@
 /// @param[in]     Size  Number of bytes to allocate
 /// @return        Pointer to allocated memory area
 ///
-void *operator new(std::size_t size) throw () {
+void *operator new(std::size_t size) throw() {
   return pvPortMalloc(size);
 }
 
@@ -23,6 +23,6 @@ void *operator new(std::size_t size) throw () {
 /// @param[in]     size  Number of bytes to allocate
 /// @return        Pointer to allocated memory area
 ///
-void *operator new[](std::size_t size) throw () {
+void *operator new[](std::size_t size) throw() {
   return pvPortMalloc(size);
 }
