@@ -114,22 +114,22 @@ ARFLAGS       := $(strip $(ARFLAGS))
 #============================== vpath Directories ======================================================================
 vpath %.s $(PROJ_SRC_DIRS)
 vpath %.c $(PROJ_SRC_DIRS)
-vpath %.cpp $(PROJ_SRC_DIRS)
+vpath %.cc $(PROJ_SRC_DIRS)
 vpath %.o $(PROJ_OBJ_DIRS) $(BUILD_DIR)
 vpath %.a $(BUILD_DIR)
 
 #============================== Build Variables ========================================================================
 find_s_files = $(wildcard $(PROJ_SRC_DIR)/*.s)
 find_c_files = $(wildcard $(PROJ_SRC_DIR)/*.c)
-find_cpp_files = $(wildcard $(PROJ_SRC_DIR)/*.cpp)
+find_cc_files = $(wildcard $(PROJ_SRC_DIR)/*.cc)
 find_o_files = $(wildcard $(PROJ_OBJ_DIR)/*.o)
 
 PROJ_S_SRCS := $(notdir $(foreach PROJ_SRC_DIR,$(PROJ_SRC_DIRS),$(find_s_files)))
 PROJ_C_SRCS := $(notdir $(foreach PROJ_SRC_DIR,$(PROJ_SRC_DIRS),$(find_c_files)))
-PROJ_CPP_SRCS := $(notdir $(foreach PROJ_SRC_DIR,$(PROJ_SRC_DIRS),$(find_cpp_files)))
+PROJ_CC_SRCS := $(notdir $(foreach PROJ_SRC_DIR,$(PROJ_SRC_DIRS),$(find_cc_files)))
 PROJ_O_SRCS := $(notdir $(foreach PROJ_OBJ_DIR,$(PROJ_OBJ_DIRS),$(find_o_files)))
 
-PROJ_OBJS = $(strip $(PROJ_S_SRCS:.s=.o) $(PROJ_C_SRCS:.c=.o) $(PROJ_CPP_SRCS:.cpp=.o) $(PROJ_O_SRCS))
+PROJ_OBJS = $(strip $(PROJ_S_SRCS:.s=.o) $(PROJ_C_SRCS:.c=.o) $(PROJ_CC_SRCS:.cc=.o) $(PROJ_O_SRCS))
 
 STD_INCS = $(addprefix -isystem, $(STD_INC_DIRS))
 PLTF_INCS = $(addprefix -I, $(PLTF_INC_DIRS))
