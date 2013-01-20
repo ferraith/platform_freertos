@@ -27,8 +27,11 @@ include ../../toolchain/make/toolchain.mk
 include ../../toolchain/make/libs.mk
 
 #============================== Platform Libraries =====================================================================
+# Common
+PLTF_INC_DIRS  = ../common/include
+
 # CMSIS-CORE LPC17xx
-PLTF_INC_DIRS  = ../cmsis_core_lpc17xx/include
+PLTF_INC_DIRS += ../cmsis_core_lpc17xx/include
 
 
 ########################################################################################################################
@@ -36,14 +39,15 @@ PLTF_INC_DIRS  = ../cmsis_core_lpc17xx/include
 # Project Files
 #
 #============================== Source Directories =====================================================================
-PROJ_SRC_DIRS  = src/core
-PROJ_SRC_DIRS += src/port
+PROJ_SRC_DIRS  = src/freertos/core
+PROJ_SRC_DIRS += src/freertos/port
 
 #============================== Header Directories =====================================================================
 PROJ_INC_DIRS  = include
 PROJ_INC_DIRS += include/freertos
-PROJ_INC_DIRS += src/core
-PROJ_INC_DIRS += src/port
+PROJ_INC_DIRS += src
+PROJ_INC_DIRS += src/freertos/core
+PROJ_INC_DIRS += src/freertos/port
 
 #============================== Object Directories =====================================================================
 PROJ_OBJ_DIRS  =
