@@ -5,7 +5,6 @@
 
 #include "freertos/FreeRTOS.h"
 
-
 ///
 /// @brief         Deallocates storage. This allocation function is called by delete-expressions to deallocate memory
 ///                after destructing a scalar object.
@@ -15,7 +14,6 @@
 void operator delete(void *ptr) throw() {
   vPortFree(ptr);
 }
-
 
 ///
 /// @brief         Deallocates storage. This allocation function are called by delete-expressions to deallocate memory
