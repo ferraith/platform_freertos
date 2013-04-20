@@ -14,7 +14,6 @@ bool TaskWrapper::Create(const char *task_name, uint16_t stack_depth, uint32_t p
                        static_cast<void *>(this), priority, &task_handle_) != pdFALSE;
 }
 
-<<<<<<< HEAD
 #if (INCLUDE_eTaskStateGet == 1)
 TaskWrapper::TaskState TaskWrapper::GetState() {
   switch (eTaskStateGet(task_handle_)) {
@@ -34,6 +33,4 @@ TaskWrapper::TaskState TaskWrapper::GetState() {
 }
 #endif
 
-=======
->>>>>>> 97fb2a1a2c8afda158ad4c1257642b9f75cc105b
 }  // namespace freertos

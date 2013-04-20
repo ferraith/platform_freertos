@@ -10,7 +10,6 @@
 
 namespace freertos {
 
-<<<<<<< HEAD
 ///
 /// @brief         TaskWrapper.
 ///
@@ -26,10 +25,6 @@ class TaskWrapper {
     kUnknown
   };
 
-=======
-class TaskWrapper {
- public:
->>>>>>> 97fb2a1a2c8afda158ad4c1257642b9f75cc105b
   ///
   /// @brief         Constructor
   ///
@@ -89,18 +84,13 @@ class TaskWrapper {
 #endif
 #if (INCLUDE_uxTaskPriorityGet == 1)
   ///
-<<<<<<< HEAD
   /// @brief         Obtains the priority of the task.
-=======
-  /// @brief         Obtain the priority of the task.
->>>>>>> 97fb2a1a2c8afda158ad4c1257642b9f75cc105b
   /// @return        The priority of the task
   ///
   uint32_t GetPriority() {
     return uxTaskPriorityGet(task_handle_);
   }
 #endif
-<<<<<<< HEAD
 #if (INCLUDE_pcTaskGetTaskName == 1)
   ///
   /// @brief         Obtains the name of the task.
@@ -132,8 +122,6 @@ class TaskWrapper {
   static uint32_t GetTickCountFromISR() {
     return xTaskGetTickCountFromISR();
   }
-=======
->>>>>>> 97fb2a1a2c8afda158ad4c1257642b9f75cc105b
 #if (INCLUDE_vTaskSuspend == 1)
   ///
   /// @brief         Resumes the suspended task.
@@ -149,11 +137,7 @@ class TaskWrapper {
   /// @return        True if resuming the task should result in a context switch, otherwise false. This is used by the
   ///                ISR to determine if a context switch may be required following the ISR.
   ///
-<<<<<<< HEAD
   bool ResumeFromISR() {
-=======
-  bool ResumeFromIsr() {
->>>>>>> 97fb2a1a2c8afda158ad4c1257642b9f75cc105b
     return xTaskResumeFromISR(task_handle_) != pdFALSE;
   }
 #endif
@@ -185,15 +169,10 @@ class TaskWrapper {
 #endif
 
  private:
-<<<<<<< HEAD
   /// Handle of the created task
   xTaskHandle task_handle_;
   /// Disables the copy constructor and assignment operator
   DISALLOW_COPY_AND_ASSIGN(TaskWrapper);
-=======
-  /// Handle by which the created task can be referenced
-  xTaskHandle task_handle_;
->>>>>>> 97fb2a1a2c8afda158ad4c1257642b9f75cc105b
 };
 
 }  // namespace freertos
