@@ -10,8 +10,21 @@
 
 namespace freertos {
 
+///
+/// @brief         TaskWrapper.
+///
 class TaskWrapper {
  public:
+  /// Possible states that a task can exist in
+  enum class TaskState {
+    kReady,
+    kRunning,
+    kBlocked,
+    kSuspended,
+    kDeleted,
+    kUnknown
+  };
+
   ///
   /// @brief         Constructor
   ///
@@ -71,13 +84,44 @@ class TaskWrapper {
 #endif
 #if (INCLUDE_uxTaskPriorityGet == 1)
   ///
-  /// @brief         Obtain the priority of the task.
+  /// @brief         Obtains the priority of the task.
   /// @return        The priority of the task
   ///
   uint32_t GetPriority() {
     return uxTaskPriorityGet(task_handle_);
   }
 #endif
+#if (INCLUDE_pcTaskGetTaskName == 1)
+  ///
+  /// @brief         Obtains the name of the task.
+  /// @return        A pointer to the subject tasks name, which is a standard NULL terminated C string
+  ///
+  char *GetName() {
+    return pcTaskGetTaskName(task_handle_);
+  }
+#endif
+#if (INCLUDE_eTaskStateGet == 1)
+  ///
+  /// @brief         Obtains the current state of the task.
+  /// @return        The state in which the task existed at the time GetState() was executed
+  ///
+  TaskState GetState();
+#endif
+  ///
+  /// @brief         Obtains the count of ticks since vTaskStartScheduler was called.
+  /// @return        The count of ticks
+  ///
+  static uint32_t GetTickCount() {
+    return xTaskGetTickCount();
+  }
+  ///
+  /// @brief         Obtains the count of ticks since vTaskStartScheduler was called that can be called from within an
+  ///                ISR.
+  /// @return        The count of ticks
+  ///
+  static uint32_t GetTickCountFromISR() {
+    return xTaskGetTickCountFromISR();
+  }
 #if (INCLUDE_vTaskSuspend == 1)
   ///
   /// @brief         Resumes the suspended task.
@@ -93,7 +137,7 @@ class TaskWrapper {
   /// @return        True if resuming the task should result in a context switch, otherwise false. This is used by the
   ///                ISR to determine if a context switch may be required following the ISR.
   ///
-  bool ResumeFromIsr() {
+  bool ResumeFromISR() {
     return xTaskResumeFromISR(task_handle_) != pdFALSE;
   }
 #endif
@@ -125,8 +169,10 @@ class TaskWrapper {
 #endif
 
  private:
-  /// Handle by which the created task can be referenced
+  /// Handle of the created task
   xTaskHandle task_handle_;
+  /// Disables the copy constructor and assignment operator
+  DISALLOW_COPY_AND_ASSIGN(TaskWrapper);
 };
 
 }  // namespace freertos

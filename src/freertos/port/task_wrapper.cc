@@ -14,4 +14,23 @@ bool TaskWrapper::Create(const char *task_name, uint16_t stack_depth, uint32_t p
                        static_cast<void *>(this), priority, &task_handle_) != pdFALSE;
 }
 
+#if (INCLUDE_eTaskStateGet == 1)
+TaskWrapper::TaskState TaskWrapper::GetState() {
+  switch (eTaskStateGet(task_handle_)) {
+  case eReady:
+    return TaskState::kReady;
+  case eRunning:
+    return TaskState::kRunning;
+  case eBlocked:
+    return TaskState::kBlocked;
+  case eSuspended:
+    return TaskState::kSuspended;
+  case eDeleted:
+    return TaskState::kDeleted;
+  default:
+    return TaskState::kUnknown;
+  }
+}
+#endif
+
 }  // namespace freertos

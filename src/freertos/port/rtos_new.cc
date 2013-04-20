@@ -5,13 +5,15 @@
 
 #include "freertos/FreeRTOS.h"
 
+using std::size_t;
+
 ///
 /// @brief         Allocates requested number of bytes. This allocation function is called by new-expressions to
 ///                allocate memory in which a new object would then be initialized.
 /// @param[in]     Size  Number of bytes to allocate
 /// @return        Pointer to allocated memory area
 ///
-void *operator new(std::size_t size) throw() {
+void *operator new(size_t size) throw() {
   return pvPortMalloc(size);
 }
 
@@ -21,6 +23,6 @@ void *operator new(std::size_t size) throw() {
 /// @param[in]     size  Number of bytes to allocate
 /// @return        Pointer to allocated memory area
 ///
-void *operator new[](std::size_t size) throw() {
+void *operator new[](size_t size) throw() {
   return pvPortMalloc(size);
 }
