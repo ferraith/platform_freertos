@@ -1,8 +1,13 @@
 // FreeRTOS Library
 // Copyright (C) ferraith. All rights reserved.
 
+<<<<<<< HEAD
 #include "cmsis_core_lpc17xx/LPC17xx.h"
 #include "freertos/FreeRTOS.h"
+=======
+#include "freertos/FreeRTOS.h"
+#include "cmsis_core_lpc17xx/LPC17xx.h"
+>>>>>>> 97fb2a1a2c8afda158ad4c1257642b9f75cc105b
 #include "freertos/task.h"
 
 ///
