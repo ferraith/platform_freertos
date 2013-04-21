@@ -108,6 +108,7 @@
 #define INCLUDE_vTaskDelayUntil               1
 #define INCLUDE_vTaskDelay                    1
 #define INCLUDE_uxTaskGetStackHighWaterMark   1
+#define INCLUDE_pcTaskGetTaskName             1
 #define INCLUDE_eTaskStateGet                 1
 
 // Use the system definition, if there is one

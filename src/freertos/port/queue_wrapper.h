@@ -17,12 +17,12 @@ class QueueWrapper {
   ///
   /// @brief         Constructor
   ///
-  QueueWrapper() : queue_handle_(NULL) {}
+  QueueWrapper() : queue_handle_(nullptr) {}
   ///
   /// @brief         Destructor
   ///
   ~QueueWrapper() {
-    if (queue_handle_ != NULL) {
+    if (queue_handle_ != nullptr) {
       Delete();
     }
   }
@@ -35,7 +35,7 @@ class QueueWrapper {
   ///
   bool Create(uint32_t queue_length, uint32_t item_size) {
     queue_handle_ = xQueueCreate(queue_length, item_size);
-    if (queue_handle_ != NULL) {
+    if (queue_handle_ != nullptr) {
       return true;
     } else {
       return false;
@@ -47,7 +47,7 @@ class QueueWrapper {
   ///
   void Delete() {
     vQueueDelete(queue_handle_);
-    queue_handle_ = NULL;
+    queue_handle_ = nullptr;
   }
   ///
   /// @brief         Receive an item from a queue. The item is received by copy so a buffer of adequate size must be

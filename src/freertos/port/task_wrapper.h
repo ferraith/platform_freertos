@@ -28,33 +28,23 @@ class TaskWrapper {
   ///
   /// @brief         Constructor
   ///
-  TaskWrapper() : task_handle_(NULL) {}
+  TaskWrapper() : task_handle_(nullptr) {}
   ///
   /// @brief         Destructor
   ///
   virtual ~TaskWrapper() {
-    if (task_handle_ != NULL) {
+    if (task_handle_ != nullptr) {
       Delete();
     }
   }
 
-  ///
-  /// @brief         Creates a new task and add it to the list of tasks that are ready to run.
-  /// @param[in]     task_name  Descriptive name for the task
-  /// @param[in]     stack_depth  Size of the task stack specified as the number of variables the stack can hold -
-  ///                not the number of bytes
-  /// @param[in]     priority  Priority at which the task should run
-  /// @return        True if the task was successfully created and added to a ready list, otherwise an error code
-  ///                defined in the file projdefs.h
-  ///
-  bool Create(const char *task_name, uint16_t stack_depth, uint32_t priority);
 #if (INCLUDE_vTaskDelay == 1)
   ///
   /// @brief         Delay a task for a given amount of time.
   /// @param[in]     delay_time  The amount of time, in milliseconds, that the calling task should block
   /// @return        None
   ///
-  void Delay(uint16_t delay_time) {
+  static void Delay(uint16_t delay_time) {
     vTaskDelay(delay_time * portTICK_RATE_MS);
 }
 #endif
@@ -67,19 +57,8 @@ class TaskWrapper {
   ///                (previous_wake_time + time_increment)
   /// @return        None
   ///
-  void DelayUntil(uint32_t *previous_wake_time, uint32_t time_increment) {
+  static void DelayUntil(uint32_t *previous_wake_time, uint32_t time_increment) {
     vTaskDelayUntil(previous_wake_time, time_increment * portTICK_RATE_MS);
-  }
-#endif
-#if (INCLUDE_vTaskDelete == 1)
-  ///
-  /// @brief         Removes a task from the RTOS kernels management. The task being deleted will be removed from all
-  ///                ready, blocked, suspended and event lists.
-  /// @return        None
-  ///
-  void Delete() {
-    vTaskDelete(task_handle_);
-    task_handle_ = NULL;
   }
 #endif
 #if (INCLUDE_uxTaskPriorityGet == 1)
@@ -96,7 +75,7 @@ class TaskWrapper {
   /// @brief         Obtains the name of the task.
   /// @return        A pointer to the subject tasks name, which is a standard NULL terminated C string
   ///
-  char *GetName() {
+  signed char *GetName() {
     return pcTaskGetTaskName(task_handle_);
   }
 #endif
@@ -165,6 +144,29 @@ class TaskWrapper {
   /// @return        None
   void Suspend() {
     vTaskSuspend(task_handle_);
+  }
+#endif
+
+ protected:
+  ///
+  /// @brief         Creates a new task and add it to the list of tasks that are ready to run.
+  /// @param[in]     task_name  Descriptive name for the task
+  /// @param[in]     stack_depth  Size of the task stack specified as the number of variables the stack can hold -
+  ///                not the number of bytes
+  /// @param[in]     priority  Priority at which the task should run
+  /// @return        True if the task was successfully created and added to a ready list, otherwise an error code
+  ///                defined in the file projdefs.h
+  ///
+  bool Create(const char *task_name, uint16_t stack_depth, uint32_t priority);
+#if (INCLUDE_vTaskDelete == 1)
+  ///
+  /// @brief         Removes a task from the RTOS kernels management. The task being deleted will be removed from all
+  ///                ready, blocked, suspended and event lists.
+  /// @return        None
+  ///
+  void Delete() {
+    vTaskDelete(task_handle_);
+    task_handle_ = NULL;
   }
 #endif
 
