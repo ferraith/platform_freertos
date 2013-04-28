@@ -79,7 +79,7 @@ class TaskWrapper {
     return pcTaskGetTaskName(task_handle_);
   }
 #endif
-#if (INCLUDE_eTaskStateGet == 1)
+#if (INCLUDE_eTaskGetState == 1)
   ///
   /// @brief         Obtains the current state of the task.
   /// @return        The state in which the task existed at the time GetState() was executed

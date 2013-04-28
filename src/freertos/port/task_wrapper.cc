@@ -14,9 +14,9 @@ bool TaskWrapper::Create(const char *task_name, uint16_t stack_depth, uint32_t p
                        static_cast<void *>(this), priority, &task_handle_) != pdFALSE;
 }
 
-#if (INCLUDE_eTaskStateGet == 1)
+#if (INCLUDE_eTaskGetState == 1)
 TaskWrapper::TaskState TaskWrapper::GetState() {
-  switch (eTaskStateGet(task_handle_)) {
+  switch (eTaskGetState(task_handle_)) {
   case eReady:
     return TaskState::kReady;
   case eRunning:
