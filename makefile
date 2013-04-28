@@ -3,7 +3,7 @@
 # Project: FreeRTOS Library
 #
 # Description:
-#	Makefile used to build the FreeRTOS Library.
+# Makefile used to build the FreeRTOS Library.
 #
 ########################################################################################################################
 #
