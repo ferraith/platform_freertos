@@ -32,6 +32,11 @@ PLTF_INC_DIRS  = ../common/include
 
 # CMSIS-CORE LPC17xx
 PLTF_INC_DIRS += ../cmsis_core_lpc17xx/include
+PLTF_INC_DIRS += ../cmsis_core_lpc17xx/include/cmsis_core_lpc17xx
+
+# LPC17xx
+PLTF_INC_DIRS += ../lpc17xx/include
+PLTF_INC_DIRS += ../lpc17xx/src
 
 
 ########################################################################################################################
