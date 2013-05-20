@@ -45,7 +45,7 @@ class TaskWrapper {
   /// @return        None
   ///
   static void Delay(uint16_t delay_time) {
-    vTaskDelay(delay_time * portTICK_RATE_MS);
+    vTaskDelay(delay_time / portTICK_RATE_MS);
 }
 #endif
 #if (INCLUDE_vTaskDelayUntil == 1)
@@ -58,7 +58,7 @@ class TaskWrapper {
   /// @return        None
   ///
   static void DelayUntil(uint32_t *previous_wake_time, uint32_t time_increment) {
-    vTaskDelayUntil(previous_wake_time, time_increment * portTICK_RATE_MS);
+    vTaskDelayUntil(previous_wake_time, time_increment / portTICK_RATE_MS);
   }
 #endif
 #if (INCLUDE_uxTaskPriorityGet == 1)
