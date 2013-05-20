@@ -11,7 +11,7 @@
 namespace freertos {
 
 ///
-/// @brief         TaskWrapper.
+/// @brief         Wraps all functionality of task creation and handling provided by FreeRTOS.
 ///
 class TaskWrapper {
  public:
@@ -24,19 +24,6 @@ class TaskWrapper {
     kDeleted,
     kUnknown
   };
-
-  ///
-  /// @brief         Constructor
-  ///
-  TaskWrapper() : task_handle_(nullptr) {}
-  ///
-  /// @brief         Destructor
-  ///
-  virtual ~TaskWrapper() {
-    if (task_handle_ != nullptr) {
-      Delete();
-    }
-  }
 
 #if (INCLUDE_vTaskDelay == 1)
   ///
@@ -61,46 +48,6 @@ class TaskWrapper {
     vTaskDelayUntil(previous_wake_time, time_increment / portTICK_RATE_MS);
   }
 #endif
-#if (INCLUDE_uxTaskPriorityGet == 1)
-  ///
-  /// @brief         Obtains the priority of the task.
-  /// @return        The priority of the task
-  ///
-  uint32_t GetPriority() {
-    return uxTaskPriorityGet(task_handle_);
-  }
-#endif
-#if (INCLUDE_pcTaskGetTaskName == 1)
-  ///
-  /// @brief         Obtains the name of the task.
-  /// @return        A pointer to the subject tasks name, which is a standard NULL terminated C string
-  ///
-  signed char *GetName() {
-    return pcTaskGetTaskName(task_handle_);
-  }
-#endif
-#if (INCLUDE_eTaskGetState == 1)
-  ///
-  /// @brief         Obtains the current state of the task.
-  /// @return        The state in which the task existed at the time GetState() was executed
-  ///
-  TaskState GetState();
-#endif
-  ///
-  /// @brief         Obtains the count of ticks since vTaskStartScheduler was called.
-  /// @return        The count of ticks
-  ///
-  static uint32_t GetTickCount() {
-    return xTaskGetTickCount();
-  }
-  ///
-  /// @brief         Obtains the count of ticks since vTaskStartScheduler was called that can be called from within an
-  ///                ISR.
-  /// @return        The count of ticks
-  ///
-  static uint32_t GetTickCountFromISR() {
-    return xTaskGetTickCountFromISR();
-  }
 #if (INCLUDE_vTaskSuspend == 1)
   ///
   /// @brief         Resumes the suspended task.
@@ -126,17 +73,6 @@ class TaskWrapper {
   /// @return        None
   ///
   virtual void Run() = 0;
-#if (INCLUDE_vTaskPrioritySet == 1)
-  ///
-  /// @brief         Set the priority of the task. A context switch will occur before the method returns if the
-  ///                priority being set is higher than the currently executing task.
-  /// @param[in]     new_priority  The priority to which the task will be set
-  /// @return        None
-  ///
-  void SetPriority(uint32_t new_priority) {
-    vTaskPrioritySet(task_handle_, new_priority);
-  }
-#endif
 #if (INCLUDE_vTaskSuspend == 1)
   ///
   /// @brief         Suspend the task. When suspended the task will never get any microcontroller processing time, no
@@ -147,17 +83,79 @@ class TaskWrapper {
   }
 #endif
 
+#if (INCLUDE_pcTaskGetTaskName == 1)
+  ///
+  /// @brief         Obtains the name of the task.
+  /// @return        A pointer to the subject tasks name, which is a standard NULL terminated C string
+  ///
+  char *task_name() const { return reinterpret_cast<char *>(pcTaskGetTaskName(task_handle_)); }
+#endif
+#if (INCLUDE_uxTaskPriorityGet == 1)
+  ///
+  /// @brief         Obtains the priority of the task.
+  /// @return        The priority of the task
+  ///
+  uint32_t task_priority() const { return uxTaskPriorityGet(task_handle_); }
+#endif
+#if (INCLUDE_vTaskPrioritySet == 1)
+  ///
+  /// @brief         Set the priority of the task. A context switch will occur before the method returns if the
+  ///                priority being set is higher than the currently executing task.
+  /// @param[in]     new_task_priority  The priority to which the task will be set
+  /// @return        None
+  ///
+  void set_task_priority(uint32_t new_task_priority) { vTaskPrioritySet(task_handle_, new_task_priority); }
+#endif
+#if (INCLUDE_eTaskGetState == 1)
+  ///
+  /// @brief         Obtains the current state of the task.
+  /// @return        The state in which the task existed at the time GetState() was executed
+  ///
+  TaskState task_state() const;
+#endif
+  ///
+  /// @brief         Obtains the count of ticks since vTaskStartScheduler was called.
+  /// @return        The count of ticks
+  ///
+  static uint32_t tick_count() { return xTaskGetTickCount(); }
+  ///
+  /// @brief         Obtains the count of ticks since vTaskStartScheduler was called that can be called from within an
+  ///                ISR.
+  /// @return        The count of ticks
+  ///
+  static uint32_t tick_count_from_isr() { return xTaskGetTickCountFromISR(); }
+  ///
+  /// @brief         Obtains the size of the task stack
+  /// @return        The size of the task stack specified as the number of variables the stack can hold
+  ///
+  uint32_t stack_depth() const { return kStackDepth; }
+
  protected:
   ///
-  /// @brief         Creates a new task and add it to the list of tasks that are ready to run.
+  /// @brief         Constructor.
   /// @param[in]     task_name  Descriptive name for the task
-  /// @param[in]     stack_depth  Size of the task stack specified as the number of variables the stack can hold -
-  ///                not the number of bytes
+  /// @param[in]     stack_depth  Size of the task stack specified as the number of variables the stack can hold
+  ///
+  TaskWrapper(const char *task_name, const uint16_t stack_depth)
+    : kStackDepth(stack_depth),
+      kTaskName(task_name),
+      task_handle_(nullptr) {}
+  ///
+  /// @brief         Destructor.
+  ///
+  virtual ~TaskWrapper() {
+    if (task_handle_ != nullptr) {
+      Delete();
+    }
+  }
+
+  ///
+  /// @brief         Creates a new task and add it to the list of tasks that are ready to run.
   /// @param[in]     priority  Priority at which the task should run
   /// @return        True if the task was successfully created and added to a ready list, otherwise an error code
   ///                defined in the file projdefs.h
   ///
-  bool Create(const char *task_name, uint16_t stack_depth, uint32_t priority);
+  bool Create(uint32_t priority);
 #if (INCLUDE_vTaskDelete == 1)
   ///
   /// @brief         Removes a task from the RTOS kernels management. The task being deleted will be removed from all
@@ -171,6 +169,10 @@ class TaskWrapper {
 #endif
 
  private:
+  /// Size of the task stack specified as the number of variables the stack can hold
+  const uint16_t kStackDepth;
+  /// Descriptive name for the task
+  const char *kTaskName;
   /// Handle of the created task
   xTaskHandle task_handle_;
   /// Disables the copy constructor and assignment operator
