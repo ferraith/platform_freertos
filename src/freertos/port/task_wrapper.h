@@ -48,23 +48,19 @@ class TaskWrapper {
     vTaskDelayUntil(previous_wake_time, time_increment / portTICK_RATE_MS);
   }
 #endif
-#if (INCLUDE_vTaskSuspend == 1)
-  ///
-  /// @brief         Resumes the suspended task.
-  /// @return        None
-  ///
-  void Resume() {
-    vTaskResume(task_handle_);
-  }
-#endif
 #if ((INCLUDE_xTaskResumeFromISR == 1) && (INCLUDE_vTaskSuspend == 1))
   ///
-  /// @brief         Resumes the suspended task that can be called from within an ISR.
+  /// @brief         Resumes the suspended task.
   /// @return        True if resuming the task should result in a context switch, otherwise false. This is used by the
   ///                ISR to determine if a context switch may be required following the ISR.
   ///
-  bool ResumeFromISR() {
-    return xTaskResumeFromISR(task_handle_) != pdFALSE;
+  bool Resume() {
+    if (portIS_ISR_ACTIVE()) {
+      return xTaskResumeFromISR(task_handle_) != pdFALSE;
+    } else {
+      vTaskResume(task_handle_);
+      return false;
+    }
   }
 #endif
   ///
@@ -117,13 +113,13 @@ class TaskWrapper {
   /// @brief         Obtains the count of ticks since vTaskStartScheduler was called.
   /// @return        The count of ticks
   ///
-  static uint32_t tick_count() { return xTaskGetTickCount(); }
-  ///
-  /// @brief         Obtains the count of ticks since vTaskStartScheduler was called that can be called from within an
-  ///                ISR.
-  /// @return        The count of ticks
-  ///
-  static uint32_t tick_count_from_isr() { return xTaskGetTickCountFromISR(); }
+  static uint32_t tick_count() {
+    if (portIS_ISR_ACTIVE()) {
+      return xTaskGetTickCountFromISR();
+    } else {
+      return xTaskGetTickCount();
+    }
+  }
   ///
   /// @brief         Obtains the size of the task stack
   /// @return        The size of the task stack specified as the number of variables the stack can hold
