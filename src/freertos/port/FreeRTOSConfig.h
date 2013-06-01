@@ -18,7 +18,7 @@
 #define configTOTAL_HEAP_SIZE                 ((size_t) (3 * 1024))
 #define configHEAP_MEMORY_SECTION             ".rtos_heap"
 #define configMAX_TASK_NAME_LEN               18
-#define configUSE_TRACE_FACILITY              0
+#define configUSE_TRACE_FACILITY              1
 #define configUSE_16_BIT_TICKS                0
 #define configIDLE_SHOULD_YIELD               0
 #define configUSE_CO_ROUTINES                 0
@@ -32,6 +32,7 @@
 #define configUSE_RECURSIVE_MUTEXES           0
 #define configQUEUE_REGISTRY_SIZE             0
 #define configGENERATE_RUN_TIME_STATS         1
+#define configUSE_APPLICATION_TASK_TAG        1
 
 // Set the following definitions to 1 to include the API function
 #define INCLUDE_vTaskPrioritySet              1
@@ -45,6 +46,8 @@
 #define INCLUDE_uxTaskGetStackHighWaterMark   1
 #define INCLUDE_pcTaskGetTaskName             1
 #define INCLUDE_eTaskGetState                 1
+#define INCLUDE_xTaskGetCurrentTaskHandle     1
+#define INCLUDE_xTaskGetIdleTaskHandle        1
 
 // Number of Bits used for Priority Levels
 #define configPRIO_BITS                       __NVIC_PRIO_BITS

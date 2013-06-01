@@ -25,6 +25,16 @@ class TaskWrapper {
     kUnknown
   };
 
+#if (configUSE_APPLICATION_TASK_TAG == 1)
+  ///
+  /// @brief         Calls the hook function associated with the task.
+  /// @param[in]     param  The value to pass to the hook function. This can be a pointer to a structure, or simply a
+  ///                numeric value
+  /// @return        A value which is returned from the hook function. The meaning of the value depends on the
+  ///                implementation of the hook function.
+  ///
+  uint32_t CallApplicationTaskHook(void *param) { return xTaskCallApplicationTaskHook(task_handle_, param); }
+#endif
 #if (INCLUDE_vTaskDelay == 1)
   ///
   /// @brief         Delay a task for a given amount of time.
@@ -79,6 +89,31 @@ class TaskWrapper {
   }
 #endif
 
+#if (configUSE_APPLICATION_TASK_TAG == 1)
+  ///
+  /// @brief         Returns the tag value associated with the task.
+  /// @return        The tag value of the task
+  ///
+  pdTASK_HOOK_CODE application_task_tag() const { return xTaskGetApplicationTaskTag(task_handle_); }
+#endif
+#if (configUSE_APPLICATION_TASK_TAG == 1)
+  ///
+  /// @brief         Assigns a tag value to the task.
+  /// @param[in]     The value being assigned to the task tag
+  /// @return        None
+  ///
+  void set_application_task_tag(pdTASK_HOOK_CODE tag_value) const {
+    vTaskSetApplicationTaskTag(task_handle_, tag_value);
+  }
+#endif
+#if (INCLUDE_uxTaskGetStackHighWaterMark == 1)
+  ///
+  /// @brief         Returns the minimum amount of remaining stack space that was available to the task since the task
+  ///                started executing.
+  /// @return        The value returned is the high water mark in words
+  ///
+  uint32_t stack_high_water_mark() const { return uxTaskGetStackHighWaterMark(task_handle_); }
+#endif
 #if (INCLUDE_pcTaskGetTaskName == 1)
   ///
   /// @brief         Obtains the name of the task.
@@ -100,7 +135,7 @@ class TaskWrapper {
   /// @param[in]     new_task_priority  The priority to which the task will be set
   /// @return        None
   ///
-  void set_task_priority(uint32_t new_task_priority) { vTaskPrioritySet(task_handle_, new_task_priority); }
+  void set_task_priority(uint32_t new_task_priority) const { vTaskPrioritySet(task_handle_, new_task_priority); }
 #endif
 #if (INCLUDE_eTaskGetState == 1)
   ///
@@ -109,33 +144,13 @@ class TaskWrapper {
   ///
   TaskState task_state() const;
 #endif
-  ///
-  /// @brief         Obtains the count of ticks since vTaskStartScheduler was called.
-  /// @return        The count of ticks
-  ///
-  static uint32_t tick_count() {
-    if (portIS_ISR_ACTIVE()) {
-      return xTaskGetTickCountFromISR();
-    } else {
-      return xTaskGetTickCount();
-    }
-  }
-  ///
-  /// @brief         Obtains the size of the task stack
-  /// @return        The size of the task stack specified as the number of variables the stack can hold
-  ///
-  uint32_t stack_depth() const { return kStackDepth; }
 
  protected:
   ///
   /// @brief         Constructor.
   /// @param[in]     task_name  Descriptive name for the task
-  /// @param[in]     stack_depth  Size of the task stack specified as the number of variables the stack can hold
   ///
-  TaskWrapper(const char *task_name, const uint16_t stack_depth)
-    : kStackDepth(stack_depth),
-      kTaskName(task_name),
-      task_handle_(nullptr) {}
+  explicit TaskWrapper(const char *task_name) : kTaskName(task_name), task_handle_(nullptr) {}
   ///
   /// @brief         Destructor.
   ///
@@ -148,10 +163,11 @@ class TaskWrapper {
   ///
   /// @brief         Creates a new task and add it to the list of tasks that are ready to run.
   /// @param[in]     priority  Priority at which the task should run
+  /// @param[in]     stack_depth  Size of the task stack specified as the number of variables the stack can hold
   /// @return        True if the task was successfully created and added to a ready list, otherwise an error code
   ///                defined in the file projdefs.h
   ///
-  bool Create(uint32_t priority);
+  bool Create(uint32_t priority, uint16_t stack_depth);
 #if (INCLUDE_vTaskDelete == 1)
   ///
   /// @brief         Removes a task from the RTOS kernels management. The task being deleted will be removed from all
@@ -165,8 +181,6 @@ class TaskWrapper {
 #endif
 
  private:
-  /// Size of the task stack specified as the number of variables the stack can hold
-  const uint16_t kStackDepth;
   /// Descriptive name for the task
   const char *kTaskName;
   /// Handle of the created task

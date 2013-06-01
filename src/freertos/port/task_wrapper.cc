@@ -9,8 +9,8 @@ extern "C" inline void RunTaskCode(void *parameters) {
     (static_cast<TaskWrapper *>(parameters))->Run();
 }
 
-bool TaskWrapper::Create(uint32_t priority) {
-    return xTaskCreate(RunTaskCode, reinterpret_cast<const signed char *>(kTaskName), kStackDepth,
+bool TaskWrapper::Create(uint32_t priority, uint16_t stack_depth) {
+    return xTaskCreate(RunTaskCode, reinterpret_cast<const signed char *>(kTaskName), stack_depth,
                        static_cast<void *>(this), priority, &task_handle_) != pdFALSE;
 }
 
