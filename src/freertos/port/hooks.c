@@ -31,8 +31,8 @@ void vConfigureTimerForRunTimeStats() {
 
 ///
 /// @brief         This function will get called if a task overflows its stack.
-/// @param[in]     pxTask      The handle of the task which overflows its stack
-/// @param[in]     pcTaskName  The name of the task which overflows its stack
+/// @param[in]     pxTask      The handle of the task which overflows its stack.
+/// @param[in]     pcTaskName  The name of the task which overflows its stack.
 /// @return        None
 ///
 void vApplicationStackOverflowHook(xTaskHandle pxTask, signed char *pcTaskName) {

@@ -55,20 +55,20 @@ namespace kernel {
 #if (INCLUDE_xTaskGetCurrentTaskHandle  == 1)
   ///
   /// @brief         Returns the handle of the currently running (calling) task.
-  /// @return        The handle of the currently running task
+  /// @return        The handle of the currently running task.
   ///
   inline xTaskHandle GetCurrentTaskHandle() { return xTaskGetCurrentTaskHandle(); }
 #endif
 #if (INCLUDE_xTaskGetIdleTaskHandle  == 1)
   ///
   /// @brief         Returns the task handle associated with the Idle task.
-  /// @return        The task handle associated with the Idle task
+  /// @return        The task handle associated with the Idle task.
   ///
   inline xTaskHandle GetIdleTaskHandle() { return xTaskGetIdleTaskHandle(); }
 #endif
   ///
   /// @brief         Returns the number of tasks which are currently managed by the RTOS kernel.
-  /// @return        The number of tasks
+  /// @return        The number of tasks.
   ///
   inline uint32_t GetNumberOfTasks() { return uxTaskGetNumberOfTasks(); }
 #if (configGENERATE_RUN_TIME_STATS  == 1)
@@ -84,7 +84,7 @@ namespace kernel {
 #endif
   ///
   /// @brief         Returns the current state of the scheduler.
-  /// @return        The state of the scheduler
+  /// @return        The state of the scheduler.
   ///
   SchedulerState GetSchedulerState();
 #if (configUSE_TRACE_FACILITY == 1)
@@ -98,7 +98,7 @@ namespace kernel {
 #endif
   ///
   /// @brief         Obtains the count of ticks since scheduler was started.
-  /// @return        The count of ticks
+  /// @return        The count of ticks.
   ///
   inline uint32_t GetTickCount() {
     if (portIS_ISR_ACTIVE()) {
